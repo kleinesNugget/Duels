@@ -1,0 +1,315 @@
+# name:         Kit name
+#
+# description:  Kit description
+# |             Default: "None"
+#
+# icon:         Item that is shown in a GUI
+#
+# duel-time:    Time in seconds that a duel with this kit will last, before ending in a draw
+# |             Default: 300
+#
+# disabled:     Whether this kit should be disabled or not
+# |             Default: false
+#
+# equipment:    The kit's equipment that the players will fight with
+# |             Inventory numbers https://gamepedia.cursecdn.com/minecraft_gamepedia/b/b2/Items_slot_number.png?version=3afad52a1728dd42b02d0bf4b5d5364e
+# |             ItemStack format https://www.spigotmc.org/wiki/itemstack-serialization/
+# - armor:      Possible slots: helmet, chestplate, leggings, boots
+# - inventory:  Possible slots: 0-35
+# - offhand:    Item in offhand
+name: "No Debuff"
+description: "none"
+icon: ENDER_PEARL
+duel-time: 600
+disabled: false
+equipment:
+  armor:
+    helmet:
+      v: 2586
+      type: DIAMOND_HELMET
+      meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      enchants:
+        PROTECTION_ENVIRONMENTAL: 2
+        DURABILITY: 3
+    chestplate:
+      v: 2586
+      type: DIAMOND_CHESTPLATE
+      meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      enchants:
+        PROTECTION_ENVIRONMENTAL: 2
+        DURABILITY: 3
+    leggings:
+      v: 2586
+      type: DIAMOND_LEGGINGS
+      meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      enchants:
+        PROTECTION_ENVIRONMENTAL: 2
+        DURABILITY: 3
+    boots:
+      v: 2586
+      type: DIAMOND_BOOTS
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        enchants:
+          PROTECTION_ENVIRONMENTAL: 2
+          DURABILITY: 3
+  inventory:
+    0:
+      v: 2586
+      type: DIAMOND_SWORD
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        enchants:
+          FIRE_ASPECT: 2
+          DAMAGE_ALL: 3
+          DURABILITY: 3
+    1:
+      v: 2586
+      type: ENDER_PEARL
+      amount: 16
+    2:
+      v: 2586
+      type: POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:strong_swiftness
+    3:
+      v: 2586
+      type: POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:long_fire_resistance
+    4:
+      v: 2586
+      type: SPLASH_POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:strong_healing
+    5:
+      v: 2586
+      type: SPLASH_POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:strong_healing
+    6:
+      v: 2586
+      type: SPLASH_POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:strong_healing
+    7:
+      v: 2586
+      type: SPLASH_POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:strong_healing
+    8:
+      v: 2586
+      type: COOKED_BEEF
+      amount: 64
+    9:
+      v: 2586
+      type: SPLASH_POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:strong_healing
+    10:
+      v: 2586
+      type: SPLASH_POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:strong_healing
+    11:
+      v: 2586
+      type: SPLASH_POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:strong_healing
+    12:
+      v: 2586
+      type: SPLASH_POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:strong_healing
+    13:
+      v: 2586
+      type: SPLASH_POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:strong_healing
+    14:
+      v: 2586
+      type: SPLASH_POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:strong_healing
+    15:
+      v: 2586
+      type: SPLASH_POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:strong_healing
+    16:
+      v: 2586
+      type: SPLASH_POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:strong_healing
+    17:
+      v: 2586
+      type: POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:strong_swiftness
+    18:
+      v: 2586
+      type: SPLASH_POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:strong_healing
+    19:
+      v: 2586
+      type: SPLASH_POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:strong_healing
+    20:
+      v: 2586
+      type: SPLASH_POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:strong_healing
+    21:
+      v: 2586
+      type: SPLASH_POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:strong_healing
+    22:
+      v: 2586
+      type: SPLASH_POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:strong_healing
+    23:
+      v: 2586
+      type: SPLASH_POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:strong_healing
+    24:
+      v: 2586
+      type: SPLASH_POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:strong_healing
+    25:
+      v: 2586
+      type: SPLASH_POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:strong_healing
+    26:
+      v: 2586
+      type: POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:strong_swiftness
+    27:
+      v: 2586
+      type: SPLASH_POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:strong_healing
+    28:
+      v: 2586
+      type: SPLASH_POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:strong_healing
+    29:
+      v: 2586
+      type: SPLASH_POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:strong_healing
+    30:
+      v: 2586
+      type: SPLASH_POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:strong_healing
+    31:
+      v: 2586
+      type: SPLASH_POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:strong_healing
+    32:
+      v: 2586
+      type: SPLASH_POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:strong_healing
+    33:
+      v: 2586
+      type: SPLASH_POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:strong_healing
+    34:
+      v: 2586
+      type: SPLASH_POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:strong_healing
+    35:
+      v: 2586
+      type: POTION
+      meta:
+        ==: ItemMeta
+        meta-type: POTION
+        potion-type: minecraft:strong_swiftness
+#  offhand:
+#    v: 2586
+#    type: SHIELD

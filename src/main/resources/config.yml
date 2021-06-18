@@ -1,0 +1,10 @@
+# Whether to send additional information in console to help with debugging.
+# Default: false
+debug: false
+
+arenas:
+  # Auto saving interval for arenas in seconds.
+  # Higher value -> Lower performance impact, less redundancy in case of a server crash
+  # Lower value -> Higher performance impact, more redundancy in case of a server crash
+  # Default: 300
+  auto-save-interval: 300
