@@ -13,11 +13,19 @@ public interface GUI extends InventoryHolder {
 
     void update();
 
-    default boolean onClickItem(Player player, ItemStack item, int slot, ClickType clickType) {
+    default boolean onClickGUIItem(Player player, ItemStack item, int slot, ClickType clickType) {
         return true;
     }
 
-    default boolean onClickNothing(Player player, int slot, ClickType clickType) {
+    default boolean onClickGUINothing(Player player, int slot, ClickType clickType) {
+        return true;
+    }
+
+    default boolean onClickBottomItem(Player player, ItemStack item, int slot, ClickType clickType) {
+        return true;
+    }
+
+    default boolean onClickBottomNothing(Player player, int slot, ClickType clickType) {
         return true;
     }
 

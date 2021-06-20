@@ -13,20 +13,26 @@ public class GUIListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onInventoryClick(InventoryClickEvent event) {
-        if (!(event.getView().getTopInventory() instanceof GUI gui)) return;
+        if (!(event.getView().getTopInventory().getHolder() instanceof GUI gui)) return;
         if (!(event.getWhoClicked() instanceof Player player)) return;
 
         ItemStack item = event.getCurrentItem();
         int slot = event.getSlot();
         ClickType clickType = event.getClick();
 
-        if (item == null && event.getClickedInventory() == event.getView().getTopInventory())
-            event.setCancelled(gui.onClickNothing(player, slot, clickType));
+        if (item != null && event.getClickedInventory() == event.getView().getTopInventory())
+            event.setCancelled(gui.onClickGUIItem(player, item, slot, clickType));
 
-        else if (item != null && event.getClickedInventory() == event.getView().getTopInventory())
-            event.setCancelled(gui.onClickItem(player, item, slot, clickType));
+        else if (item == null && event.getClickedInventory() == event.getView().getTopInventory())
+            event.setCancelled(gui.onClickGUINothing(player, slot, clickType));
 
-        else
+        else if (item != null && event.getClickedInventory() == event.getView().getBottomInventory())
+            event.setCancelled(gui.onClickBottomItem(player, item, slot, clickType));
+
+        else if (item == null && event.getClickedInventory() == event.getView().getBottomInventory())
+            event.setCancelled(gui.onClickBottomNothing(player, slot, clickType));
+
+        else if (event.getClickedInventory() == null)
             event.setCancelled(gui.onClickOutside(player, clickType));
     }
 

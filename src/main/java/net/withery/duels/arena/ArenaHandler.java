@@ -101,6 +101,8 @@ public class ArenaHandler {
     public void unload() {
         if (autoSaveTask != null)
             autoSaveTask.cancel();
+
+        saveArenas(true);
     }
 
     private void startSavingTask() {

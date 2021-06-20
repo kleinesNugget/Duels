@@ -16,6 +16,8 @@ public class DuelsCommand extends ParentCommand {
 
     public DuelsCommand(Duels plugin) {
         super(plugin, "duels.command.admin.duels");
+
+        register(new DuelsArenasSubCommand(plugin));
     }
 
     @Override

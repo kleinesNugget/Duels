@@ -7,6 +7,7 @@ import net.withery.duels.arena.ArenaHandler;
 import net.withery.duels.arena.ArenaTypeAdapter;
 import net.withery.duels.command.CommandHandler;
 import net.withery.duels.config.Settings;
+import net.withery.duels.gui.GUIHandler;
 import net.withery.duels.internal.Debugger;
 import net.withery.duels.kit.KitHandler;
 import net.withery.duels.listener.arena.ArenaChangesListener;
@@ -23,6 +24,7 @@ public class Duels extends JavaPlugin {
     private Debugger debugger;
     private ArenaHandler arenaHandler;
     private KitHandler kitHandler;
+    private GUIHandler guiHandler;
 
     @Override
     public void onEnable() {
@@ -50,6 +52,9 @@ public class Duels extends JavaPlugin {
         getDebugger().log(Level.INFO, "Loading Kit Handler...");
         kitHandler = new KitHandler(this);
         kitHandler.load();
+
+        getDebugger().log(Level.INFO, "Loading GUI Handler...");
+        guiHandler = new GUIHandler();
 
         getDebugger().log(Level.INFO, "Loading Command Handler...");
         CommandHandler commandHandler = new CommandHandler(this);
@@ -93,6 +98,10 @@ public class Duels extends JavaPlugin {
 
     public KitHandler getKitHandler() {
         return kitHandler;
+    }
+
+    public GUIHandler getGuiHandler() {
+        return guiHandler;
     }
 
 }
