@@ -4,11 +4,11 @@ import net.withery.duels.arena.Arena;
 import org.bukkit.event.Cancellable;
 import org.jetbrains.annotations.NotNull;
 
-public class ArenaCreateEvent extends ArenaEvent implements Cancellable {
+public class ArenaPreCreateEvent extends ArenaEvent implements Cancellable {
 
     private boolean cancelled = false;
 
-    public ArenaCreateEvent(@NotNull Arena arena) {
+    public ArenaPreCreateEvent(@NotNull Arena arena) {
         super(arena);
     }
 

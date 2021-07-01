@@ -5,12 +5,16 @@ import com.google.gson.GsonBuilder;
 import net.withery.duels.arena.Arena;
 import net.withery.duels.arena.ArenaHandler;
 import net.withery.duels.arena.ArenaTypeAdapter;
+import net.withery.duels.arena.setup.ArenaSetupHandler;
 import net.withery.duels.command.CommandHandler;
 import net.withery.duels.config.Settings;
+import net.withery.duels.config.locale.LocaleHandler;
 import net.withery.duels.gui.GUIHandler;
 import net.withery.duels.internal.Debugger;
 import net.withery.duels.kit.KitHandler;
 import net.withery.duels.listener.arena.ArenaChangesListener;
+import net.withery.duels.listener.arena.setup.ArenaSetupListener;
+import net.withery.duels.listener.gui.ArenaGUIListener;
 import net.withery.duels.listener.gui.GUIListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -22,7 +26,9 @@ public class Duels extends JavaPlugin {
     private Gson gson;
     private Settings settings;
     private Debugger debugger;
+    private LocaleHandler localeHandler;
     private ArenaHandler arenaHandler;
+    private ArenaSetupHandler arenaSetupHandler;
     private KitHandler kitHandler;
     private GUIHandler guiHandler;
 
@@ -45,9 +51,16 @@ public class Duels extends JavaPlugin {
         settings = new Settings(this);
         debugger = new Debugger(this);
 
+        getDebugger().log(Level.INFO, "Loading Locale Handler");
+        localeHandler = new LocaleHandler(this);
+        localeHandler.load();
+
         getDebugger().log(Level.INFO, "Loading Arena Handler...");
         arenaHandler = new ArenaHandler(this);
         arenaHandler.load();
+
+        getDebugger().log(Level.INFO, "Loading Arena Setup Handler...");
+        arenaSetupHandler = new ArenaSetupHandler(this);
 
         getDebugger().log(Level.INFO, "Loading Kit Handler...");
         kitHandler = new KitHandler(this);
@@ -76,7 +89,9 @@ public class Duels extends JavaPlugin {
     }
 
     private void registerListeners() {
+        Bukkit.getPluginManager().registerEvents(new ArenaSetupListener(this), this);
         Bukkit.getPluginManager().registerEvents(new ArenaChangesListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new ArenaGUIListener(this), this);
         Bukkit.getPluginManager().registerEvents(new GUIListener(), this);
     }
 
@@ -92,8 +107,16 @@ public class Duels extends JavaPlugin {
         return debugger;
     }
 
+    public LocaleHandler getLocaleHandler() {
+        return localeHandler;
+    }
+
     public ArenaHandler getArenaHandler() {
         return arenaHandler;
+    }
+
+    public ArenaSetupHandler getArenaSetupHandler() {
+        return arenaSetupHandler;
     }
 
     public KitHandler getKitHandler() {

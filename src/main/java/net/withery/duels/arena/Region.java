@@ -1,6 +1,8 @@
 package net.withery.duels.arena;
 
 import net.withery.duels.events.arena.ArenaEditEvent;
+import net.withery.duels.events.arena.ArenaPostEditEvent;
+import net.withery.duels.events.arena.ArenaPreEditEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
@@ -61,11 +63,13 @@ public class Region {
      * @param position1 {@link Location} of the first corner
      */
     public void setPosition1(@Nullable Location position1) {
-        ArenaEditEvent event = new ArenaEditEvent(arena, ArenaEditEvent.EditType.POSITION_CHANGE);
+        ArenaPreEditEvent event = new ArenaPreEditEvent(arena, ArenaEditEvent.EditType.POSITION_CHANGE);
         Bukkit.getPluginManager().callEvent(event);
         if (event.isCancelled()) return;
 
         this.position1 = position1;
+
+        Bukkit.getPluginManager().callEvent(new ArenaPostEditEvent(arena, ArenaEditEvent.EditType.POSITION_CHANGE));
     }
 
     /**
@@ -83,11 +87,13 @@ public class Region {
      * @param position2 {@link Location} of the second corner
      */
     public void setPosition2(@Nullable Location position2) {
-        ArenaEditEvent event = new ArenaEditEvent(arena, ArenaEditEvent.EditType.POSITION_CHANGE);
+        ArenaPreEditEvent event = new ArenaPreEditEvent(arena, ArenaEditEvent.EditType.POSITION_CHANGE);
         Bukkit.getPluginManager().callEvent(event);
         if (event.isCancelled()) return;
 
         this.position2 = position2;
+
+        Bukkit.getPluginManager().callEvent(new ArenaPostEditEvent(arena, ArenaEditEvent.EditType.POSITION_CHANGE));
     }
 
     /**
@@ -97,6 +103,15 @@ public class Region {
      */
     public @Nullable Location getPosition2() {
         return position2;
+    }
+
+    /**
+     * Gets whether both positions of the region are set
+     *
+     * @return true if both positions are set
+     */
+    public boolean isComplete() {
+        return position1 != null && position2 != null;
     }
 
 }

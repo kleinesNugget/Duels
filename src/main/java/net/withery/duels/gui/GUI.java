@@ -9,7 +9,11 @@ public interface GUI extends InventoryHolder {
 
     void open();
 
-    void close();
+    void close(boolean inventory);
+
+    default void close() {
+        close(true);
+    }
 
     void update();
 

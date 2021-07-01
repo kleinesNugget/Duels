@@ -3,6 +3,7 @@ package net.withery.duels.command.admin.duels;
 import net.withery.duels.Duels;
 import net.withery.duels.command.ParentCommand;
 import net.withery.duels.command.SubCommand;
+import net.withery.duels.config.locale.LocaleReference;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -23,13 +24,13 @@ public class DuelsCommand extends ParentCommand {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!sender.hasPermission(permission)) {
-            sender.sendMessage("NO PERMISSION");
+            plugin.getLocaleHandler().sendMessage(sender, LocaleReference.NO_PERMISSION);
             return true;
         }
 
         if (args.length == 0) {
             if (!sender.hasPermission("duels.command.admin.duels.help")) {
-                sender.sendMessage("NO PERMISSION");
+                plugin.getLocaleHandler().sendMessage(sender, LocaleReference.NO_PERMISSION);
                 return true;
             }
 
@@ -41,14 +42,14 @@ public class DuelsCommand extends ParentCommand {
         subArgs = Arrays.copyOfRange(args, 1, args.length);
 
         if (!exists(subLabel)) {
-            sender.sendMessage("INVALID COMMAND");
+            plugin.getLocaleHandler().sendMessage(sender, LocaleReference.INVALID_COMMAND);
             return true;
         }
 
         SubCommand subCommand = getExecutor(subLabel);
 
         if (!sender.hasPermission(subCommand.getPermission())) {
-            sender.sendMessage("NO PERMISSION");
+            plugin.getLocaleHandler().sendMessage(sender, LocaleReference.NO_PERMISSION);
             return true;
         }
 

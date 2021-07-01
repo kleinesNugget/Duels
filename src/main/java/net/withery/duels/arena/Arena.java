@@ -2,6 +2,8 @@ package net.withery.duels.arena;
 
 import net.withery.duels.duel.Duel;
 import net.withery.duels.events.arena.ArenaEditEvent;
+import net.withery.duels.events.arena.ArenaPostEditEvent;
+import net.withery.duels.events.arena.ArenaPreEditEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -33,11 +35,13 @@ public class Arena {
     }
 
     public void setName(@NotNull String name) {
-        ArenaEditEvent event = new ArenaEditEvent(this, ArenaEditEvent.EditType.NAME_CHANGE);
+        ArenaPreEditEvent event = new ArenaPreEditEvent(this, ArenaEditEvent.EditType.NAME_CHANGE);
         Bukkit.getPluginManager().callEvent(event);
         if (event.isCancelled()) return;
 
         this.name = name;
+
+        Bukkit.getPluginManager().callEvent(new ArenaPostEditEvent(this, ArenaEditEvent.EditType.NAME_CHANGE));
     }
 
     public @NotNull String getName() {
@@ -48,24 +52,28 @@ public class Arena {
         return region;
     }
 
-    public void setSpawn1(@NotNull Location spawn1) {
-        ArenaEditEvent event = new ArenaEditEvent(this, ArenaEditEvent.EditType.SPAWN_CHANGE);
+    public void setSpawn1(@Nullable Location spawn1) {
+        ArenaPreEditEvent event = new ArenaPreEditEvent(this, ArenaEditEvent.EditType.SPAWN_CHANGE);
         Bukkit.getPluginManager().callEvent(event);
         if (event.isCancelled()) return;
 
         this.spawn1 = spawn1;
+
+        Bukkit.getPluginManager().callEvent(new ArenaPostEditEvent(this, ArenaEditEvent.EditType.SPAWN_CHANGE));
     }
 
     public @Nullable Location getSpawn1() {
         return spawn1;
     }
 
-    public void setSpawn2(@NotNull Location spawn2) {
-        ArenaEditEvent event = new ArenaEditEvent(this, ArenaEditEvent.EditType.SPAWN_CHANGE);
+    public void setSpawn2(@Nullable Location spawn2) {
+        ArenaPreEditEvent event = new ArenaPreEditEvent(this, ArenaEditEvent.EditType.SPAWN_CHANGE);
         Bukkit.getPluginManager().callEvent(event);
         if (event.isCancelled()) return;
 
         this.spawn2 = spawn2;
+
+        Bukkit.getPluginManager().callEvent(new ArenaPostEditEvent(this, ArenaEditEvent.EditType.SPAWN_CHANGE));
     }
 
     public @Nullable Location getSpawn2() {
@@ -81,11 +89,13 @@ public class Arena {
     }
 
     public void setDisabled(boolean disabled) {
-        ArenaEditEvent event = new ArenaEditEvent(this, ArenaEditEvent.EditType.DISABLE);
+        ArenaPreEditEvent event = new ArenaPreEditEvent(this, ArenaEditEvent.EditType.DISABLE);
         Bukkit.getPluginManager().callEvent(event);
         if (event.isCancelled()) return;
 
         this.disabled = disabled;
+
+        Bukkit.getPluginManager().callEvent(new ArenaPostEditEvent(this, ArenaEditEvent.EditType.DISABLE));
     }
 
     public boolean isDisabled() {

@@ -24,7 +24,7 @@ public class GUIHandler {
         return guis.get(player.getUniqueId());
     }
 
-    public static @NotNull Map<UUID, GUI> getGUIs() {
+    public @NotNull Map<UUID, GUI> getGUIs() {
         return guis;
     }
 

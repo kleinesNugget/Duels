@@ -1,32 +1,27 @@
 package net.withery.duels.listener.arena;
 
 import net.withery.duels.Duels;
-import net.withery.duels.events.arena.ArenaCreateEvent;
-import net.withery.duels.events.arena.ArenaEditEvent;
-import net.withery.duels.events.arena.ArenaRemoveEvent;
+import net.withery.duels.events.arena.ArenaPostCreateEvent;
+import net.withery.duels.events.arena.ArenaPostEditEvent;
+import net.withery.duels.events.arena.ArenaPostRemoveEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
-import java.util.logging.Level;
-
 public record ArenaChangesListener(Duels plugin) implements Listener {
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onArenaCreateEvent(ArenaCreateEvent event) {
-        plugin.getDebugger().log(Level.FINEST, "CREATED", true);
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onArenaPostCreateEvent(ArenaPostCreateEvent event) {
         plugin.getArenaHandler().setArenaChanges(true);
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onArenaEditEvent(ArenaEditEvent event) {
-        plugin.getDebugger().log(Level.FINEST, "EDITED", true);
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onArenaPostEditEvent(ArenaPostEditEvent event) {
         plugin.getArenaHandler().setArenaChanges(true);
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onArenaRemoveEvent(ArenaRemoveEvent event) {
-        plugin.getDebugger().log(Level.FINEST, "REMOVE", true);
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onArenaPostRemoveEvent(ArenaPostRemoveEvent event) {
         plugin.getArenaHandler().setArenaChanges(true);
     }
 

@@ -1,8 +1,10 @@
 package net.withery.duels.arena;
 
 import net.withery.duels.Duels;
-import net.withery.duels.events.arena.ArenaCreateEvent;
-import net.withery.duels.events.arena.ArenaRemoveEvent;
+import net.withery.duels.events.arena.ArenaPostCreateEvent;
+import net.withery.duels.events.arena.ArenaPostRemoveEvent;
+import net.withery.duels.events.arena.ArenaPreCreateEvent;
+import net.withery.duels.events.arena.ArenaPreRemoveEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
@@ -15,6 +17,8 @@ import java.util.logging.Level;
 
 public class ArenaHandler {
 
+    private final static String ARENAS_FILE = "arenas.json";
+
     private final Duels plugin;
 
     private final Set<Arena> arenas = new HashSet<>();
@@ -25,24 +29,31 @@ public class ArenaHandler {
 
     public ArenaHandler(Duels plugin) {
         this.plugin = plugin;
-        this.file = new File(plugin.getDataFolder(), "arenas.json");
+        this.file = new File(plugin.getDataFolder(), ARENAS_FILE);
     }
 
-    public void create(@NotNull String name) {
+    public @Nullable Arena create(@NotNull String name) {
+        if (get(name) != null) return null;
+
         Arena arena = new Arena(name);
-        ArenaCreateEvent event = new ArenaCreateEvent(arena);
+        ArenaPreCreateEvent event = new ArenaPreCreateEvent(arena);
         Bukkit.getPluginManager().callEvent(event);
-        if (event.isCancelled()) return;
+        if (event.isCancelled()) return null;
 
         arenas.add(arena);
+
+        Bukkit.getPluginManager().callEvent(new ArenaPostCreateEvent(arena));
+        return arena;
     }
 
     public void remove(@NotNull Arena arena) {
-        ArenaRemoveEvent event = new ArenaRemoveEvent(arena);
+        ArenaPreRemoveEvent event = new ArenaPreRemoveEvent(arena);
         Bukkit.getPluginManager().callEvent(event);
         if (event.isCancelled()) return;
 
         arenas.remove(arena);
+
+        Bukkit.getPluginManager().callEvent(new ArenaPostRemoveEvent(arena));
     }
 
     public @Nullable Arena get(@NotNull String name) {

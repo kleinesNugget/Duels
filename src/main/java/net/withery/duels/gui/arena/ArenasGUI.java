@@ -2,7 +2,9 @@ package net.withery.duels.gui.arena;
 
 import net.withery.duels.Duels;
 import net.withery.duels.arena.Arena;
-import net.withery.duels.gui.GUI;
+import net.withery.duels.arena.setup.ArenaSetupHandler;
+import net.withery.duels.config.locale.LocaleReference;
+import net.withery.duels.gui.CustomGUI;
 import net.withery.duels.utilities.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,29 +18,24 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class ArenasGUI implements GUI {
+public class ArenasGUI extends CustomGUI {
 
     private final static Map<Integer, Arena> arenaSlots = new HashMap<>();
     private final static Set<Integer> INVALID_SLOTS = new HashSet<>(Arrays.asList(17, 18, 26, 27));
 
+    private final static int INVENTORY_SIZE = 9 * 6;
+
     private final static int MAX_PER_PAGE = 21;
 
-    private final static int ADD_SLOT = 49;
-    private final static int PREVIOUS_SLOT = 46;
-    private final static int NEXT_SLOT = 52;
+    private final static int ADD_SLOT = INVENTORY_SIZE - 5;
+    private final static int PREVIOUS_SLOT = INVENTORY_SIZE - 8;
+    private final static int NEXT_SLOT = INVENTORY_SIZE - 2;
 
-    private final static ItemStack BACKGROUND = new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE).setName(" ").hideAttributes().build();
     private final static ItemStack NO_ARENAS = new ItemBuilder(Material.BARRIER).setName(ChatColor.RED + "No Arenas").hideAttributes().build();
-    private final static ItemStack UNUSED_SLOT = new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).setName(" ").hideAttributes().build();
     private final static ItemStack ADD = new ItemBuilder(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(ChatColor.AQUA + "Add Arena").hideAttributes().build();
-    private final static ItemStack NEXT = new ItemBuilder(Material.LIME_STAINED_GLASS_PANE).setName(ChatColor.AQUA + "Next Page").hideAttributes().build();
-    private final static ItemStack NEXT_INACTIVE = new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).setName(ChatColor.GRAY + "Next Page").hideAttributes().build();
-    private final static ItemStack PREVIOUS = new ItemBuilder(Material.LIME_STAINED_GLASS_PANE).setName(ChatColor.AQUA + "Previous Page").hideAttributes().build();
-    private final static ItemStack PREVIOUS_INACTIVE = new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).setName(ChatColor.GRAY + "Previous Page").hideAttributes().build();
 
     private final Duels plugin;
     private final Player player;
-    private final Inventory inventory;
 
     private int page;
     private int pages;
@@ -49,7 +46,7 @@ public class ArenasGUI implements GUI {
         this.plugin = plugin;
         this.player = player;
 
-        inventory = Bukkit.createInventory(this, 9 * 6, "Duel Arenas");
+        inventory = Bukkit.createInventory(this, INVENTORY_SIZE, "Duel Arenas");
     }
 
     private void load() {
@@ -59,12 +56,9 @@ public class ArenasGUI implements GUI {
         previousPage = false;
         nextPage = pages > 1;
 
-        inventory.clear();
+        fillBackground();
 
-        for (int i = 0; i < inventory.getSize(); i++)
-            inventory.setItem(i, BACKGROUND);
-
-        inventory.setItem(9 * 6 - 5, ADD);
+        inventory.setItem(INVENTORY_SIZE - 5, ADD);
         setArenas();
         setControls();
     }
@@ -83,9 +77,10 @@ public class ArenasGUI implements GUI {
     }
 
     @Override
-    public void close() {
+    public void close(boolean inventory) {
         plugin.getGuiHandler().removeGUI(player);
-        player.closeInventory();
+        if (inventory)
+            player.closeInventory();
     }
 
     @Override
@@ -101,10 +96,12 @@ public class ArenasGUI implements GUI {
 
     @Override
     public boolean onClickGUIItem(Player player, ItemStack item, int slot, ClickType clickType) {
+        if (clickType == ClickType.DOUBLE_CLICK) return true;
+
         switch (slot) {
             case ADD_SLOT -> {
                 close();
-                player.sendMessage("Started adding process...");
+                plugin.getArenaSetupHandler().startSetup(player, null, ArenaSetupHandler.SetupType.ARENA);
                 return true;
             }
             case PREVIOUS_SLOT -> {
@@ -126,10 +123,17 @@ public class ArenasGUI implements GUI {
         Arena arena = arenaSlots.get(slot);
         if (arena == null) return true;
 
+        if (clickType.isLeftClick() && !clickType.isShiftClick()) {
+            close(false);
+            new ArenaGUI(plugin, player, arena).open();
+            return true;
+        }
+
         if (clickType.isShiftClick() && clickType.isRightClick()) {
             arena.setDisabled(!arena.isDisabled());
-            update();
+            plugin.getLocaleHandler().sendMessage(player, (arena.isDisabled() ? LocaleReference.ARENA_SETUP_ARENA_DISABLE : LocaleReference.ARENA_SETUP_ARENA_ENABLE), arena.getName());
         }
+
         return true;
     }
 
@@ -151,11 +155,7 @@ public class ArenasGUI implements GUI {
         int i = 10;
         int skip = (page - 1) * MAX_PER_PAGE;
         for (Arena arena : arenas) {
-            if (skip-- > 0) {
-                player.sendMessage("Skipping " + arena.getName());
-                continue;
-            }
-
+            if (skip-- > 0) continue;
             while (INVALID_SLOTS.contains(i)) {
                 i++;
                 if (i >= 35) break;
@@ -179,8 +179,12 @@ public class ArenasGUI implements GUI {
     }
 
     public void setControls() {
-        inventory.setItem(9 * 6 - 8, (previousPage ? PREVIOUS : PREVIOUS_INACTIVE));
-        inventory.setItem(9 * 6 - 2, (nextPage ? NEXT : NEXT_INACTIVE));
+        inventory.setItem(INVENTORY_SIZE - 8, (previousPage ? PREVIOUS : PREVIOUS_INACTIVE));
+        inventory.setItem(INVENTORY_SIZE - 2, (nextPage ? NEXT : NEXT_INACTIVE));
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
 }
