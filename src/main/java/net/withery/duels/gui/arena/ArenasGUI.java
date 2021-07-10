@@ -123,7 +123,7 @@ public class ArenasGUI extends CustomGUI {
         Arena arena = arenaSlots.get(slot);
         if (arena == null) return true;
 
-        if (clickType.isLeftClick() && !clickType.isShiftClick()) {
+        if ((clickType.isLeftClick() || clickType.isRightClick()) && !clickType.isShiftClick()) {
             close(false);
             new ArenaGUI(plugin, player, arena).open();
             return true;
@@ -165,10 +165,12 @@ public class ArenasGUI extends CustomGUI {
             Material material = arenaStatus.getMaterial();
 
             ItemBuilder itemBuilder = new ItemBuilder(material)
-                    .setName(ChatColor.AQUA + arena.getName() + " Arena")
+                    .setName(ChatColor.GRAY + "Arena " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + arena.getName())
                     .addLoreLine("")
-                    .addLoreLine(ChatColor.GRAY + "Status: " + ChatColor.AQUA + arenaStatus.getName())
-                    .addLoreLine(ChatColor.GRAY + "Disabled: " + ChatColor.AQUA + arena.isDisabled())
+                    .addLoreLine(ChatColor.GRAY + "Status " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + arenaStatus.getName())
+                    .addLoreLine("")
+                    .addLoreLine(ChatColor.GRAY + "Left/Right Click " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + "Edit Arena")
+                    .addLoreLine(ChatColor.GRAY + "Shift + Right Click " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + (arena.isDisabled() ? "Enable" : "Disable"))
                     .hideAttributes();
 
             arenaSlots.put(i, arena);

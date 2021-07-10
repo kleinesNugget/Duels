@@ -34,6 +34,9 @@ public class GUIListener implements Listener {
 
         else if (event.getClickedInventory() == null)
             event.setCancelled(gui.onClickOutside(player, clickType));
+
+        if (event.isCancelled())
+            player.updateInventory();
     }
 
 }
