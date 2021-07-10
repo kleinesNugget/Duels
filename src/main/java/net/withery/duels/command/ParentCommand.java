@@ -10,10 +10,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public abstract class ParentCommand implements CommandExecutor, TabCompleter {
 
     protected final Duels plugin;
+    protected final String name;
     protected final String permission;
 
     private final Set<SubCommand> subCommands = new HashSet<>();
@@ -21,8 +23,9 @@ public abstract class ParentCommand implements CommandExecutor, TabCompleter {
     protected String subLabel;
     protected String[] subArgs;
 
-    public ParentCommand(Duels plugin, String permission) {
+    public ParentCommand(Duels plugin, String name, String permission) {
         this.plugin = plugin;
+        this.name = name;
         this.permission = permission;
     }
 
@@ -93,6 +96,34 @@ public abstract class ParentCommand implements CommandExecutor, TabCompleter {
 
     public Set<SubCommand> getSubCommands() {
         return subCommands;
+    }
+
+    protected void sendHelp(CommandSender sender, int page) {
+        final int COMMANDS_PER_PAGE = 9;
+        final int COMMANDS = getSubCommands().size();
+        final int PAGES = (int) Math.ceil((double) COMMANDS / COMMANDS_PER_PAGE);
+
+        if (page < 0)
+            page = 1;
+
+        if (page > PAGES)
+            page = PAGES;
+
+        List<SubCommand> subCommands = getSubCommands().stream().sorted(Comparator.comparing(SubCommand::getName)).collect(Collectors.toList());
+
+        sender.sendMessage("HELP " + page + "/" + PAGES);
+
+        int i = 0;
+        for (SubCommand subCommand : subCommands) {
+            if (i < ((page - 1) * COMMANDS_PER_PAGE)) {
+                i++;
+                continue;
+            }
+
+            if (i++ >= (COMMANDS_PER_PAGE * page)) break;
+            String usage = subCommand.getUsage();
+            sender.sendMessage("/" + name + " " + subCommand.getName() + " " + (usage == null ? "" : usage) + " - " + subCommand.getDescription());
+        }
     }
 
 }

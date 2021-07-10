@@ -1,4 +1,4 @@
-package net.withery.duels.command.admin.duels;
+package net.withery.duels.command.duel;
 
 import net.withery.duels.Duels;
 import net.withery.duels.command.ParentCommand;
@@ -10,12 +10,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
-public class DuelsCommand extends ParentCommand {
+public class DuelCommand extends ParentCommand {
 
-    public DuelsCommand(Duels plugin) {
-        super(plugin, "duels", "duels.command.admin.duels");
+    public DuelCommand(Duels plugin) {
+        super(plugin, "duel", "duels.command.duel");
 
-        register(new DuelsArenasSubCommand(plugin));
     }
 
     @Override
@@ -26,7 +25,7 @@ public class DuelsCommand extends ParentCommand {
         }
 
         if (args.length == 0) {
-            if (!sender.hasPermission("duels.command.admin.duels.help")) {
+            if (!sender.hasPermission("duels.command.duel.help")) {
                 plugin.getLocaleHandler().sendMessage(sender, LocaleReference.NO_PERMISSION);
                 return true;
             }

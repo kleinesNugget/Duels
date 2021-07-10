@@ -8,6 +8,7 @@ import net.withery.duels.gui.CustomGUI;
 import net.withery.duels.utilities.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -148,41 +149,94 @@ public class ArenaGUI extends CustomGUI {
     private void setButtons() {
         inventory.setItem(ARENA_SLOT, new ItemBuilder(arena.getArenaStatus().getMaterial())
                 .hideAttributes()
-                .setName(ChatColor.AQUA + arena.getName())
+                .setName(ChatColor.GRAY + "Arena " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + arena.getName())
                 .addLoreLine("")
-                .addLoreLine(ChatColor.GRAY + "Status: " + ChatColor.AQUA + arena.getArenaStatus().getName())
-                .addLoreLine(ChatColor.GRAY + "Disabled: " + ChatColor.AQUA + arena.isDisabled())
+                .addLoreLine(ChatColor.GRAY + "Status " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + arena.getArenaStatus().getName())
                 .addLoreLine("")
-                .addLoreLine(ChatColor.AQUA + "Left Click: " + ChatColor.GRAY + "Rename")
-                .addLoreLine(ChatColor.AQUA + "Right Click: " + ChatColor.GRAY + "Disable/Enable")
-                .addLoreLine(ChatColor.AQUA + "Shift + Right Click: " + ChatColor.GRAY + "Delete")
+                .addLoreLine(ChatColor.GRAY + "Left Click " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + "Rename")
+                .addLoreLine(ChatColor.GRAY + "Right Click " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + "Disable/Enable")
+                .addLoreLine(ChatColor.GRAY + "Shift + Right Click " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + "Delete")
                 .build());
 
-        inventory.setItem(POSITION_1_SLOT, new ItemBuilder((arena.getRegion().getPosition1() != null ? Material.LIME_CONCRETE_POWDER : Material.RED_CONCRETE_POWDER))
+        ItemBuilder corner1Item = new ItemBuilder((arena.getRegion().getPosition1() != null ? Material.LIME_CONCRETE_POWDER : Material.RED_CONCRETE_POWDER))
                 .hideAttributes()
-                .setName(ChatColor.AQUA + "Position 1")
+                .setName(ChatColor.GRAY + "Corner " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + "1")
                 .addLoreLine("")
-                .addLoreLine(ChatColor.GRAY + "Position: " + ChatColor.AQUA + (arena.getRegion().getPosition1() != null ? "x y z" : "Not set"))
-                .build());
-        inventory.setItem(POSITION_2_SLOT, new ItemBuilder((arena.getRegion().getPosition2() != null ? Material.LIME_CONCRETE_POWDER : Material.RED_CONCRETE_POWDER))
-                .hideAttributes()
-                .setName(ChatColor.AQUA + "Position 2")
-                .addLoreLine("")
-                .addLoreLine(ChatColor.GRAY + "Position: " + ChatColor.AQUA + (arena.getRegion().getPosition2() != null ? "x y z" : "Not set"))
-                .build());
+                .addLoreLine(ChatColor.GRAY + "Position " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + (arena.getRegion().getPosition1() != null ? "" : "Not set"));
 
-        inventory.setItem(SPAWN_1_SLOT, new ItemBuilder((!arena.isComplete() ? Material.GRAY_CONCRETE_POWDER : (arena.getSpawn1() != null ? Material.LIME_CONCRETE_POWDER : Material.RED_CONCRETE_POWDER)))
+        if (arena.getRegion().getPosition1() != null) {
+            Location position1 = arena.getRegion().getPosition1();
+            corner1Item.addLoreLine(ChatColor.GRAY + " x " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + position1.getBlockX());
+            corner1Item.addLoreLine(ChatColor.GRAY + " y " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + position1.getBlockY());
+            corner1Item.addLoreLine(ChatColor.GRAY + " z " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + position1.getBlockZ());
+        }
+
+        corner1Item.addLoreLine("");
+        corner1Item.addLoreLine(ChatColor.GRAY + "Left Click " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + "Set");
+        corner1Item.addLoreLine(ChatColor.GRAY + "Shift + Right Click " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + "Unset");
+
+        inventory.setItem(POSITION_1_SLOT, corner1Item.build());
+
+        ItemBuilder corner2Item = new ItemBuilder((arena.getRegion().getPosition2() != null ? Material.LIME_CONCRETE_POWDER : Material.RED_CONCRETE_POWDER))
                 .hideAttributes()
-                .setName(ChatColor.AQUA + "Spawn 1")
+                .setName(ChatColor.GRAY + "Corner " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + "2")
                 .addLoreLine("")
-                .addLoreLine(ChatColor.GRAY + "Position: " + ChatColor.AQUA + (arena.getSpawn1() != null ? "x y z" : "Not set"))
-                .build());
-        inventory.setItem(SPAWN_2_SLOT, new ItemBuilder((!arena.isComplete() ? Material.GRAY_CONCRETE_POWDER : (arena.getSpawn2() != null ? Material.LIME_CONCRETE_POWDER : Material.RED_CONCRETE_POWDER)))
+                .addLoreLine(ChatColor.GRAY + "Position " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + (arena.getRegion().getPosition2() != null ? "" : "Not set"));
+
+        if (arena.getRegion().getPosition2() != null) {
+            Location position2 = arena.getRegion().getPosition2();
+            corner2Item.addLoreLine(ChatColor.GRAY + " x " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + position2.getBlockX());
+            corner2Item.addLoreLine(ChatColor.GRAY + " y " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + position2.getBlockY());
+            corner2Item.addLoreLine(ChatColor.GRAY + " z " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + position2.getBlockZ());
+        }
+
+        corner2Item.addLoreLine("");
+        corner2Item.addLoreLine(ChatColor.GRAY + "Left Click " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + "Set");
+        corner2Item.addLoreLine(ChatColor.GRAY + "Shift + Right Click " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + "Unset");
+
+        inventory.setItem(POSITION_2_SLOT, corner2Item.build());
+
+        ItemBuilder spawn1Item = new ItemBuilder((arena.getSpawn1() != null ? (arena.getRegion().isComplete() ? Material.LIME_CONCRETE_POWDER : Material.RED_CONCRETE_POWDER) : Material.RED_CONCRETE_POWDER))
                 .hideAttributes()
-                .setName(ChatColor.AQUA + "Spawn 2")
+                .setName(ChatColor.GRAY + "Spawn " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + "1")
                 .addLoreLine("")
-                .addLoreLine(ChatColor.GRAY + "Position: " + ChatColor.AQUA + (arena.getSpawn2() != null ? "x y z" : "Not set"))
-                .build());
+                .addLoreLine(ChatColor.GRAY + "Position " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + (arena.getRegion().getPosition1() != null ? "" : "Not set"));
+
+        if (arena.getSpawn1() != null) {
+            Location spawn1 = arena.getSpawn1();
+            spawn1Item.addLoreLine(ChatColor.GRAY + " x " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + Math.round(spawn1.getX() * 1_000D) / 1_000D);
+            spawn1Item.addLoreLine(ChatColor.GRAY + " y " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + Math.round(spawn1.getY() * 1_000D) / 1_000D);
+            spawn1Item.addLoreLine(ChatColor.GRAY + " z " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + Math.round(spawn1.getZ() * 1_000D) / 1_000D);
+            spawn1Item.addLoreLine(ChatColor.GRAY + " yaw " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + Math.round(spawn1.getYaw() * 10F) / 10F);
+            spawn1Item.addLoreLine(ChatColor.GRAY + " pitch " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + Math.round(spawn1.getPitch() * 10F) / 10F);
+        }
+
+        spawn1Item.addLoreLine("");
+        spawn1Item.addLoreLine(ChatColor.GRAY + "Left Click " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + "Set");
+        spawn1Item.addLoreLine(ChatColor.GRAY + "Shift + Right Click " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + "Unset");
+
+        inventory.setItem(SPAWN_1_SLOT, spawn1Item.build());
+
+        ItemBuilder spawn2Item = new ItemBuilder((arena.getSpawn2() != null ? (arena.getRegion().isComplete() ? Material.LIME_CONCRETE_POWDER : Material.RED_CONCRETE_POWDER) : Material.RED_CONCRETE_POWDER))
+                .hideAttributes()
+                .setName(ChatColor.GRAY + "Spawn " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + "2")
+                .addLoreLine("")
+                .addLoreLine(ChatColor.GRAY + "Position " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + (arena.getRegion().getPosition1() != null ? "" : "Not set"));
+
+        if (arena.getSpawn2() != null) {
+            Location spawn2 = arena.getSpawn2();
+            spawn2Item.addLoreLine(ChatColor.GRAY + " x " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + Math.round(spawn2.getX() * 1_000D) / 1_000D);
+            spawn2Item.addLoreLine(ChatColor.GRAY + " y " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + Math.round(spawn2.getY() * 1_000D) / 1_000D);
+            spawn2Item.addLoreLine(ChatColor.GRAY + " z " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + Math.round(spawn2.getZ() * 1_000D) / 1_000D);
+            spawn2Item.addLoreLine(ChatColor.GRAY + " yaw " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + Math.round(spawn2.getYaw() * 10F) / 10F);
+            spawn2Item.addLoreLine(ChatColor.GRAY + " pitch " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + Math.round(spawn2.getPitch() * 10F) / 10F);
+        }
+
+        spawn2Item.addLoreLine("");
+        spawn2Item.addLoreLine(ChatColor.GRAY + "Left Click " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + "Set");
+        spawn2Item.addLoreLine(ChatColor.GRAY + "Shift + Right Click " + ChatColor.DARK_GRAY + "» " + ChatColor.YELLOW + "Unset");
+
+        inventory.setItem(SPAWN_2_SLOT, spawn2Item.build());
     }
 
     public Player getPlayer() {

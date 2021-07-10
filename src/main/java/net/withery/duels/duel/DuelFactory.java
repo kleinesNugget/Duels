@@ -19,7 +19,7 @@ public class DuelFactory {
         return new Duel(player1, player2, kit, arena);
     }
 
-    public static void stopDuel(Duel duel) {
+    public static void deleteDuel(Duel duel) {
         duels.remove(duel);
     }
 
